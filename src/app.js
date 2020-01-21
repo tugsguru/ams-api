@@ -4,10 +4,15 @@ const cors = require('cors')
 const compression = require('compression')
 const bodyParser = require('body-parser')
 const mssql = require('mssql')
-const dotenv = require('dotenv').config()
+require('dotenv').config()
 
 const userRouter = require('./routes/user')
 const fondRouter = require('./routes/fond')
+const ft1Router = require('./routes/ft1')
+const ft5Router = require('./routes/ft5')
+const ft6Router = require('./routes/ft6')
+const ft8Router = require('./routes/ft8')
+const turulRouter = require('./routes/turul')
 
 const app = express()
 const port = process.env.PORT
@@ -22,6 +27,11 @@ require('./middlewares/passport')
 
 app.use(userRouter)
 app.use(fondRouter)
+app.use(ft1Router)
+app.use(ft5Router)
+app.use(ft6Router)
+app.use(ft8Router)
+app.use(turulRouter)
 
 listen()
 
