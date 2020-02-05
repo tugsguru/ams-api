@@ -3,9 +3,13 @@ const sql = require('mssql')
 exports.getList = async () => {
   let request = new sql.Request()
 
-  let query = `SELECT [ftid], [name] FROM [ams_db].[dbo].[ft8] ORDER BY [ftid]`
+  try {
+    let query = `SELECT [ftid], [name] FROM [ams_db].[dbo].[ft8] ORDER BY [ftid]`
 
-  const data = await request.query(query)
+    const data = await request.query(query)
 
-  return data.recordset
+    return data.recordset
+  } catch (err) {
+    throw new Error('Хөмрөгийн хэлбэрийн жагсаалт авах үед алдаа гарлаа.')
+  }
 }

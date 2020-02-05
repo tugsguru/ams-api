@@ -29,15 +29,7 @@ exports.login = async (req, res, next) => {
       token: jwtSign(userJson.uid)
     })
   } catch (err) {
-    res.status(400).send()
-  }
-}
-
-exports.logout = async (req, res, next) => {
-  try {
-    res.send()
-  } catch (err) {
-    res.status(500).send()
+    res.status(400).send(err.message)
   }
 }
 
@@ -46,22 +38,22 @@ exports.list = async (req, res, next) => {
     let { currentPage, limit, sort, sortType } = req.query
 
     currentPage = Number.isInteger(currentPage)
-      ? parseInt(currentPage)
+      ? currentPage
       : 1
     limit = Number.isInteger(limit)
-      ? parseInt(limit)
+      ? limit
       : 10
     sort = sort || 'date_inserted'
     sortType = sortType || 'desc'
 
-    const data = await userDao.getUsers({
+    const data = await userDao.getUsers(
       currentPage, limit, sort, sortType
-    })
+    )
 
     res.send(data)
   } catch (err) {
     res
       .status(500)
-      .send('Хэрэглэгчийн жагсаалт авах үед алдаа гарлаа.')
+      .send(err.message)
   }
 }

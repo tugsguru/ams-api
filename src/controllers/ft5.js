@@ -8,6 +8,6 @@ exports.list = async (req, res, next) => {
   } catch (err) {
     res
       .status(500)
-      .send('Хөмрөгийн төлөв байдлын жагсаалт авах үед алдаа гарлаа.')
+      .send(err.message)
   }
 }

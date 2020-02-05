@@ -1,12 +1,10 @@
-const fondDao = require('../daos/fond')
+const opisDao = require('../daos/opis')
 
 exports.get = async (req, res, next) => {
   try {
-    const { fid } = req.params
+    const { oid } = req.params
 
-    const data = await fondDao.get(fid)
-
-    console.log(data)
+    const data = await opisDao.get(oid)
 
     res.send(data)
   } catch (err) {
@@ -16,25 +14,34 @@ exports.get = async (req, res, next) => {
   }
 }
 
-exports.list = async (req, res, next) => {
+exports.listByFond = async (req, res, next) => {
   try {
+    const { fkod } = req.params
+
+    if (!fkod) {
+      return {
+        list: [],
+        total: 0
+      }
+    }
+
     const {
-      fkod, a1, a3, a7, a8, currentPage, limit, sort, sortType
+      oname, g3, g4, g24, currentPage, limit, sort, sortType
     } = req.query
 
-    const data = await fondDao.getList({
-      fkod: fkod || '',
-      a1: a1 || '',
-      a3: a3 || '',
-      a7: a7 || '',
-      a8: a8 || '',
+    const data = await opisDao.getListByFond({
+      fkod,
+      oname: oname || '',
+      g3: g3 || '',
+      g4: g4 || '',
+      g24: g24 || '',
       currentPage: Number.isInteger(parseInt(currentPage))
         ? parseInt(currentPage)
         : 1,
       limit: Number.isInteger(parseInt(limit))
         ? parseInt(limit)
         : 10,
-      sort: sort || 'fkod',
+      sort: sort || 'okod',
       sortType: sortType || 'asc'
     })
 
@@ -48,7 +55,12 @@ exports.list = async (req, res, next) => {
 
 exports.create = async (req, res, next) => {
   try {
-    await fondDao.create(req.body)
+    const { fkod } = req.params
+
+    await opisDao.create({
+      fkod,
+      ...req.body
+    })
 
     return res.status(201).send()
   } catch (err) {
@@ -60,9 +72,9 @@ exports.create = async (req, res, next) => {
 
 exports.update = async (req, res, next) => {
   try {
-    const { fid } = req.params
+    const { oid } = req.params
 
-    await fondDao.update({ fid, ...req.body })
+    await opisDao.update({ oid, ...req.body })
 
     return res.send()
   } catch (err) {
@@ -74,9 +86,9 @@ exports.update = async (req, res, next) => {
 
 exports.remove = async (req, res, next) => {
   try {
-    const { fid } = req.params
+    const { oid } = req.params
 
-    await fondDao.remove(fid)
+    await opisDao.remove(oid)
 
     return res.send()
   } catch (err) {

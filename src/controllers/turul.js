@@ -1,5 +1,17 @@
 const turulDao = require('../daos/turul')
 
+exports.listTurul = async (req, res, next) => {
+  try {
+    const data = await turulDao.getTurulList()
+
+    res.send(data)
+  } catch (err) {
+    res
+      .status(500)
+      .send(err.message)
+  }
+}
+
 exports.listTurulA = async (req, res, next) => {
   try {
     const data = await turulDao.getTurulAList()
@@ -8,7 +20,7 @@ exports.listTurulA = async (req, res, next) => {
   } catch (err) {
     res
       .status(500)
-      .send('Нөхөн бүрдүүлэх эх үүсвэрийн (төрөл A) жагсаалт авах үед алдаа гарлаа.')
+      .send(err.message)
   }
 }
 
@@ -20,6 +32,6 @@ exports.listTurulB = async (req, res, next) => {
   } catch (err) {
     res
       .status(500)
-      .send('Нөхөн бүрдүүлэх эх үүсвэрийн (төрөл B) жагсаалт авах үед алдаа гарлаа.')
+      .send(err.message)
   }
 }

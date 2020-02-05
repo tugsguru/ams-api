@@ -1,8 +1,8 @@
-const ft8Dao = require('../daos/ft8')
+const nuutsbaidalDao = require('../daos/nuutsbaidal')
 
 exports.list = async (req, res, next) => {
   try {
-    const data = await ft8Dao.getList()
+    const data = await nuutsbaidalDao.getList()
 
     res.send(data)
   } catch (err) {
