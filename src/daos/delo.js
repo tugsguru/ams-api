@@ -35,21 +35,15 @@ exports.getListByFondAndOpis = async ({
     let query = `SELECT [lid], [l1], [l4], [l8], [l9], [l11], [l14], COUNT(*) OVER() AS total FROM [ams_db].[dbo].[delo] [d] LEFT JOIN [ams_db].[dbo].[opis] [o] ON [d].[opis] = [o].[oid] LEFT JOIN [ams_db].[dbo].[fond] [f] ON [o].[fond] = [f].[fid] WHERE [f].[fkod] = '${fkod}' AND [o].[okod] = '${okod}'`
 
     if (l4) {
-      query = `${query} AND [l4] = '${l4}'`
+      query = `${query} AND [l4] LIKE '%${l4}%'`
     }
 
     if (l8) {
-      const minLimit = moment(l8).startOf('days').format('YYYY-MM-DD')
-      const maxLimit = moment(minLimit).add(1, 'days').format('YYYY-MM-DD')
-
-      query = `${query} AND ([l8] >= '${minLimit}' AND [l8] < '${maxLimit}')`
+      query = `${query} AND CONVERT(varchar, [l8], 23) = '${l8}'`
     }
 
     if (l9) {
-      const minLimit = moment(l9).startOf('days').format('YYYY-MM-DD')
-      const maxLimit = moment(minLimit).add(1, 'days').format('YYYY-MM-DD')
-
-      query = `${query} AND ([l9] >= '${minLimit}' AND [l9] < '${maxLimit}')`
+      query = `${query} AND CONVERT(varchar, [l9], 23) = '${l9}'`
     }
 
     if (l11) {
@@ -152,7 +146,7 @@ exports.update = async ({
   const request = new sql.Request()
 
   try {
-    query = `UPDATE [ams_db].[dbo].[delo] SET [lid] = '${lid}', [l1] = '${l1}', [l4] = '${l4}', [l5] = '${l5}', [l8] = '${l8}', [l9] = '${l9}', [l10] = '${l10}', [l11] = '${l11}', [l12] = '${l12}', [l13] = '${l13}', [l14] = '${l14}', [l15] = '${l15}', [l16] = '${l16}', [l17] = '${l17}', [l18] = '${l18}', [l19] = '${l19}', [l20] = '${l20}', [l21] = '${l21}', [l22] = '${l22}', [l23] = '${l23}', [l24] = '${l24}', [l26] = '${l26}' WHERE [lid] = '${lid}'`
+    const query = `UPDATE [ams_db].[dbo].[delo] SET [lid] = '${lid}', [l1] = '${l1}', [l4] = '${l4}', [l5] = '${l5}', [l8] = '${l8}', [l9] = '${l9}', [l10] = '${l10}', [l11] = '${l11}', [l12] = '${l12}', [l13] = '${l13}', [l14] = '${l14}', [l15] = '${l15}', [l16] = '${l16}', [l17] = '${l17}', [l18] = '${l18}', [l19] = '${l19}', [l20] = '${l20}', [l21] = '${l21}', [l22] = '${l22}', [l23] = '${l23}', [l24] = '${l24}', [l26] = '${l26}' WHERE [lid] = '${lid}'`
 
     await request.query(query)
   } catch (err) {

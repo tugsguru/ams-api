@@ -95,7 +95,7 @@ exports.remove = async (req, res, next) => {
     const filename = await deloDao.getFilename(lid)
 
     if (filename) {
-      fs.unlink(`uploads/${filename}`, err => {
+      fs.unlink(`uploads/delo/${filename}`, err => {
         if (err) {
           throw new Error('Файл устгах үед алдаа гарлаа.')
         }

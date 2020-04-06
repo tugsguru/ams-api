@@ -8,8 +8,6 @@ exports.get = async fid => {
 
     const response = await request.query(query)
 
-    console.log(response)
-
     return response.recordset[0]
   } catch (err) {
     throw new Error(`${fid} кодтой хөмрөгийн мэдээлэл авах үед алдаа гарлаа.`)
@@ -39,7 +37,7 @@ exports.getList = async ({
     }
 
     if (a1) {
-      query = `${query} AND [a1] = '${a1}'`
+      query = `${query} AND [a1] LIKE '%${a1}%'`
     }
 
     if (a3) {

@@ -33,7 +33,7 @@ exports.getListByFond = async ({
     let query = `SELECT [oid], [okod], [oname], [g3], [g4], [g14], [g24], COUNT(*) OVER() AS total FROM [ams_db].[dbo].[opis] [o] LEFT JOIN [ams_db].[dbo].[fond] [f] ON [o].[fond] = [f].[fid] WHERE [f].[fkod] = '${fkod}'`
 
     if (oname) {
-      query = `${query} AND [oname] = '${oname}'`
+      query = `${query} AND [oname] LIKE '%${oname}%'`
     }
 
     if (g3) {
