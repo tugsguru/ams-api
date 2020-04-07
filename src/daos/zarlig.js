@@ -102,18 +102,6 @@ exports.getPeople = async (npid) => {
   }
 }
 
-exports.removePerson = async (id) => {
-  const request = new sql.Request()
-
-  try {
-    const query = `DELETE FROM [ams_db].[dbo].[t_name] WHERE [kid] = '${id}'`
-
-    await request.query(query)
-  } catch (err) {
-    throw new Error(`${id} кодтой хүн устгах үед алдаа гарлаа.`)
-  }
-}
-
 exports.createPerson = async ({ tid, n }) => {
   const request = new sql.Request()
 
@@ -138,6 +126,72 @@ exports.updatePerson = async ({ id, n }) => {
   }
 }
 
+exports.removePerson = async (id) => {
+  const request = new sql.Request()
+
+  try {
+    const query = `DELETE FROM [ams_db].[dbo].[t_name] WHERE [kid] = '${id}'`
+
+    await request.query(query)
+  } catch (err) {
+    throw new Error(`${id} кодтой хүн устгах үед алдаа гарлаа.`)
+  }
+}
+
+exports.getGeoList = async (npid) => {
+  const request = new sql.Request()
+
+  try {
+    const query = `SELECT [kid], [tid], [n] FROM [ams_db].[dbo].[t_geograf] WHERE [tid] = '${npid}'`
+
+    const response = await request.query(query)
+
+    return response.recordset
+  } catch (err) {
+    throw new Error(
+      `${npid} кодтой баримтанд харгалзах байгууллагасийн мэдээлэл авах үед алдаа гарлаа.`
+    )
+  }
+}
+
+exports.createGeo = async ({ tid, n }) => {
+  const request = new sql.Request()
+
+  try {
+    query = `INSERT INTO [ams_db].[dbo].[t_geograf] ([tid], [n]) VALUES ('${tid}', '${n}')`
+
+    await request.query(query)
+  } catch (err) {
+    throw new Error('байгууллага нэмэх үед алдаа гарлаа.')
+  }
+}
+
+exports.updateGeo = async ({ id, n }) => {
+  const request = new sql.Request()
+
+  try {
+    query = `UPDATE [ams_db].[dbo].[t_geograf] SET [n] = '${n}' WHERE [kid] = '${id}'`
+
+    await request.query(query)
+  } catch (err) {
+    throw new Error(
+      `${kid} кодтой байгууллагаийн мэдээлэл засах үед алдаа гарлаа.`
+    )
+  }
+}
+
+exports.removeGeo = async (id) => {
+  const request = new sql.Request()
+
+  try {
+    const query = `DELETE FROM [ams_db].[dbo].[t_geograf] WHERE [kid] = '${id}'`
+
+    await request.query(query)
+  } catch (err) {
+    throw new Error(`${id} кодтой байгууллага устгах үед алдаа гарлаа.`)
+  }
+}
+
 exports.getOrgs = async (npid) => {
   const request = new sql.Request()
 
@@ -146,27 +200,49 @@ exports.getOrgs = async (npid) => {
 
     const response = await request.query(query)
 
-    return response.recordset[0]
+    return response.recordset
   } catch (err) {
     throw new Error(
-      `${npid} кодтой баримтанд харгалзах байгууллагуудын мэдээлэл авах үед алдаа гарлаа.`
+      `${npid} кодтой баримтанд харгалзах байгууллагын мэдээлэл авах үед алдаа гарлаа.`
     )
   }
 }
 
-exports.getGeo = async (npid) => {
+exports.createOrg = async ({ tid, n }) => {
   const request = new sql.Request()
 
   try {
-    const query = `SELECT [kid], [tid], [n] FROM [ams_db].[dbo].[t_geograf] WHERE [tid] = '${npid}'`
+    query = `INSERT INTO [ams_db].[dbo].[t_organ] ([tid], [n]) VALUES ('${tid}', '${n}')`
 
-    const response = await request.query(query)
+    await request.query(query)
+  } catch (err) {
+    throw new Error('Байгууллага нэмэх үед алдаа гарлаа.')
+  }
+}
 
-    return response.recordset[0]
+exports.updateOrg = async ({ id, n }) => {
+  const request = new sql.Request()
+
+  try {
+    query = `UPDATE [ams_db].[dbo].[t_organ] SET [n] = '${n}' WHERE [kid] = '${id}'`
+
+    await request.query(query)
   } catch (err) {
     throw new Error(
-      `${npid} кодтой баримтанд харгалзах газар зүйн мэдээлэл авах үед алдаа гарлаа.`
+      `${kid} кодтой байгууллагын мэдээлэл засах үед алдаа гарлаа.`
     )
+  }
+}
+
+exports.removeOrg = async (id) => {
+  const request = new sql.Request()
+
+  try {
+    const query = `DELETE FROM [ams_db].[dbo].[t_organ] WHERE [kid] = '${id}'`
+
+    await request.query(query)
+  } catch (err) {
+    throw new Error(`${id} кодтой байгууллага устгах үед алдаа гарлаа.`)
   }
 }
 

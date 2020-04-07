@@ -80,18 +80,6 @@ exports.getPeople = async (req, res, next) => {
   }
 }
 
-exports.removePerson = async (req, res, next) => {
-  try {
-    const { id } = req.params
-
-    await zarligDao.removePerson(id)
-
-    return res.send()
-  } catch (err) {
-    res.status(400).send(err.message)
-  }
-}
-
 exports.createPerson = async (req, res, next) => {
   try {
     await zarligDao.createPerson({
@@ -108,9 +96,71 @@ exports.updatePerson = async (req, res, next) => {
   try {
     const { id } = req.params
 
-    console.log(id, req.body)
-
     await zarligDao.updatePerson({ id, ...req.body })
+
+    return res.send()
+  } catch (err) {
+    res.status(400).send(err.message)
+  }
+}
+
+exports.removePerson = async (req, res, next) => {
+  try {
+    const { id } = req.params
+
+    await zarligDao.removePerson(id)
+
+    return res.send()
+  } catch (err) {
+    res.status(400).send(err.message)
+  }
+}
+
+exports.getGeoList = async (req, res, next) => {
+  try {
+    const { npid } = req.params
+
+    if (!npid) {
+      return []
+    }
+
+    const data = await zarligDao.getGeoList(npid)
+
+    res.send(data)
+  } catch (err) {
+    res.status(500).send(err.message)
+  }
+}
+
+exports.createGeo = async (req, res, next) => {
+  try {
+    await zarligDao.createGeo({
+      ...req.body,
+    })
+
+    return res.status(201).send()
+  } catch (err) {
+    res.status(400).send(err.message)
+  }
+}
+
+exports.updateGeo = async (req, res, next) => {
+  try {
+    const { id } = req.params
+
+    await zarligDao.updateGeo({ id, ...req.body })
+
+    return res.send()
+  } catch (err) {
+    res.status(400).send(err.message)
+  }
+}
+
+exports.removeGeo = async (req, res, next) => {
+  try {
+    const { id } = req.params
+
+    await zarligDao.removeGeo(id)
 
     return res.send()
   } catch (err) {
@@ -134,19 +184,39 @@ exports.getOrgs = async (req, res, next) => {
   }
 }
 
-exports.getGeo = async (req, res, next) => {
+exports.createOrg = async (req, res, next) => {
   try {
-    const { npid } = req.params
+    await zarligDao.createOrg({
+      ...req.body,
+    })
 
-    if (!npid) {
-      return []
-    }
-
-    const data = await zarligDao.getGeo(npid)
-
-    res.send(data)
+    return res.status(201).send()
   } catch (err) {
-    res.status(500).send(err.message)
+    res.status(400).send(err.message)
+  }
+}
+
+exports.updateOrg = async (req, res, next) => {
+  try {
+    const { id } = req.params
+
+    await zarligDao.updateOrg({ id, ...req.body })
+
+    return res.send()
+  } catch (err) {
+    res.status(400).send(err.message)
+  }
+}
+
+exports.removeOrg = async (req, res, next) => {
+  try {
+    const { id } = req.params
+
+    await zarligDao.removeOrg(id)
+
+    return res.send()
+  } catch (err) {
+    res.status(400).send(err.message)
   }
 }
 

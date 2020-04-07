@@ -8,8 +8,14 @@ const {
   createPerson,
   updatePerson,
   removePerson,
+  getGeoList,
+  createGeo,
+  updateGeo,
+  removeGeo,
   getOrgs,
-  getGeo,
+  createOrg,
+  updateOrg,
+  removeOrg,
   create,
   update,
   remove,
@@ -23,8 +29,14 @@ router.get('/zarligs/:npid/people', auth, getPeople)
 router.post('/zarligs/people', auth, createPerson)
 router.patch('/zarligs/:id/people', auth, updatePerson)
 router.delete('/zarligs/:id/people', auth, removePerson)
+router.get('/zarligs/:npid/geo', auth, getGeoList)
+router.post('/zarligs/geo', auth, createGeo)
+router.patch('/zarligs/:id/geo', auth, updateGeo)
+router.delete('/zarligs/:id/geo', auth, removeGeo)
 router.get('/zarligs/:npid/orgs', auth, getOrgs)
-router.get('/zarligs/:npid/geo', auth, getGeo)
+router.post('/zarligs/orgs', auth, createOrg)
+router.patch('/zarligs/:id/orgs', auth, updateOrg)
+router.delete('/zarligs/:id/orgs', auth, removeOrg)
 router.post('/zarligs/:fkod/:okod/:l1', auth, create)
 router.patch('/zarligs/:npid', auth, update)
 router.delete('/zarligs/:npid', auth, remove)
