@@ -24,6 +24,7 @@ const nuutsbaidalRouter = require('./routes/nuutsbaidal')
 const lt2Router = require('./routes/lt2')
 const doct3Router = require('./routes/doct3')
 const fileRouter = require('./routes/file')
+const searchRouter = require('./routes/search')
 
 const app = express()
 const port = process.env.PORT
@@ -31,9 +32,11 @@ const port = process.env.PORT
 app.use(helmet())
 app.use(cors())
 app.use(compression())
-app.use(expressWinston.logger({
-  winstonInstance
-}))
+app.use(
+  expressWinston.logger({
+    winstonInstance,
+  })
+)
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
@@ -55,6 +58,7 @@ app.use(nuutsbaidalRouter)
 app.use(lt2Router)
 app.use(doct3Router)
 app.use(fileRouter)
+app.use(searchRouter)
 
 listen()
 
