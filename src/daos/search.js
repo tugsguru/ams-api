@@ -9,7 +9,21 @@ exports.search = async ({ by, term, currentPage, limit, sort, sortType }) => {
   switch (by) {
     // Агуулга
     case 'p2':
-      query = `SELECT [f].[fkod], [o].[okod], [d].[l1], [p2], [p7], [p10], COUNT(*) OVER() AS total FROM [ams_db].[dbo].[zarlig] [z] LEFT JOIN [ams_db].[dbo].[delo] [d] ON [z].[pid] = [d].[lid] LEFT JOIN [ams_db].[dbo].[opis] [o] ON [d].[opis] = [o].[oid] LEFT JOIN [ams_db].[dbo].[fond] [f] ON [o].[fond] = [f].[fid] WHERE [p2] LIKE N'%${term}%'`
+    // Баримтын дугаар
+    case 'p7':
+      query = `SELECT [f].[fkod], [o].[okod], [d].[l1], [npid], [p2], [p7], [p8], [p4], COUNT(*) OVER() AS total FROM [ams_db].[dbo].[zarlig] [z] LEFT JOIN [ams_db].[dbo].[delo] [d] ON [z].[pid] = [d].[lid] LEFT JOIN [ams_db].[dbo].[opis] [o] ON [d].[opis] = [o].[oid] LEFT JOIN [ams_db].[dbo].[fond] [f] ON [o].[fond] = [f].[fid] WHERE [${by}] LIKE N'%${term}%'`
+      break
+    // Хүний нэр
+    case 'name':
+      query = `SELECT [n].[n], [f].[fkod], [o].[okod], [d].[l1], [npid], [p2], [p7], [p8], [p4], COUNT(*) OVER() AS total FROM [ams_db].[dbo].[zarlig] [z] LEFT JOIN [ams_db].[dbo].[delo] [d] ON [z].[pid] = [d].[lid] LEFT JOIN [ams_db].[dbo].[opis] [o] ON [d].[opis] = [o].[oid] LEFT JOIN [ams_db].[dbo].[fond] [f] ON [o].[fond] = [f].[fid] LEFT JOIN [ams_db].[dbo].[t_name] [n] ON [z].[npid] = [n].[tid] WHERE [n].[n] LIKE N'%${term}%'`
+      break
+    // Байгууллагын нэр
+    case 'organ':
+      query = `SELECT [org].[n], [f].[fkod], [o].[okod], [d].[l1], [npid], [p2], [p7], [p8], [p4], COUNT(*) OVER() AS total FROM [ams_db].[dbo].[zarlig] [z] LEFT JOIN [ams_db].[dbo].[delo] [d] ON [z].[pid] = [d].[lid] LEFT JOIN [ams_db].[dbo].[opis] [o] ON [d].[opis] = [o].[oid] LEFT JOIN [ams_db].[dbo].[fond] [f] ON [o].[fond] = [f].[fid] LEFT JOIN [ams_db].[dbo].[t_organ] [org] ON [z].[npid] = [org].[tid] WHERE [org].[n] LIKE N'%${term}%'`
+      break
+    // Газар орны нэр
+    case 'geograf':
+      query = `SELECT [g].[n], [f].[fkod], [o].[okod], [d].[l1], [npid], [p2], [p7], [p8], [p4], COUNT(*) OVER() AS total FROM [ams_db].[dbo].[zarlig] [z] LEFT JOIN [ams_db].[dbo].[delo] [d] ON [z].[pid] = [d].[lid] LEFT JOIN [ams_db].[dbo].[opis] [o] ON [d].[opis] = [o].[oid] LEFT JOIN [ams_db].[dbo].[fond] [f] ON [o].[fond] = [f].[fid] LEFT JOIN [ams_db].[dbo].[t_geograf] [g] ON [z].[npid] = [g].[tid] WHERE [g].[n] LIKE N'%${term}%'`
       break
     default:
       break
